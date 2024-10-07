@@ -33,7 +33,7 @@ def fetch_project_id(table_name):
 
 project = fetch_project_data('projects')
 project_selection = st.selectbox("Select the project:", project)
-project_id_selected = result = project_selection.split(' - ')[0]
+project_id_selected = project_selection.split(' - ')[0]
 
 # Store the project details in session state
 if project_selection:
