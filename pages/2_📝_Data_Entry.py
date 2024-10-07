@@ -17,7 +17,7 @@ st.set_page_config(
     page_icon='📝'
 )
 
-st.title("Purchases and Expenses Data Entry")
+st.title("📝 Purchases and Expenses Data Entry")
 st.sidebar.success('Select a page above')
 
 

@@ -1,6 +1,7 @@
 import streamlit as st
 import mysql.connector
 
+
 # Establish MySQL connection
 conn = mysql.connector.connect(
     host="localhost",
@@ -15,7 +16,8 @@ st.set_page_config(
     page_icon='🧾'
 )
 
-st.title("Welcome to Expense Tracker App")
+
+st.title("📚 Welcome to Expense Tracker App")
 st.sidebar.success('Select a page above')
 
 
@@ -31,18 +33,27 @@ def fetch_project_id(table_name):
     return [row[0] for row in cursor.fetchall()]
 
 
+# Function to store the selected value in session state
+def store_session_state(key, value):
+    if key == 'project_selection' and value == "Project Names with Project ID" or value == 'Null' or value == '':
+        st.warning("Please select a valid project")
+    else:
+        st.session_state[key] = value
+
+
 project = fetch_project_data('projects')
-project_selection = st.selectbox("Select the project:", project)
+
+# Adding a blank option to the project selection
+project_with_blank = ["Project Names with Project ID"] + project  # Prepend an empty string to the project list
+
+project_selection = st.selectbox("Select the project:", project_with_blank)
 project_id_selected = project_selection.split(' - ')[0]
 
-# Store the project details in session state
-if project_selection:
-    st.session_state["project_selection"] = project_selection
+# Store the project details in session state using the refactored function
+store_session_state("project_selection", project_selection)
+store_session_state("project_id_selected", project_id_selected)
 
-# Store the project id in session state
-if project_id_selected:
-    st.session_state["project_id_selected"] = project_id_selected
-
-st.success(f"You have selected the project: {project_selection}")
+if project_selection != "Project Names with Project ID":
+    st.success(f"You have selected the project: {project_selection}")
 
 
